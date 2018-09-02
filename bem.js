@@ -2,11 +2,11 @@
  * BEMJS
  * @author Fanil Zubairov <fannisco@gmail.com>
  * */
-(function defineBemjs (global, fabric) {
-	if (global && global.Element && global.Element.prototype) {
-		fabric(global.Element.prototype);
+(function defineBemjs (global, factory) {
+	if (global) {
+		factory();
 	}
-})(window, function bemjsFactory(elem) {
+})(this, function bemjsFactory() {
 
 	// Modifier delimenter
 	// Example: block--modifier
@@ -20,7 +20,7 @@
 	 * Create or get BEM-class from data-class-name attribute
 	 * @return {String}
 	 * */
-	elem.getBEMClass = function () {
+	Element.prototype.getBEMClass = function () {
 		if ('undefined' !== typeof this.BEMCLass) {
 			return this.BEMCLass;
 		}
@@ -51,7 +51,7 @@
 	 * @param {String} name - BEM element name
 	 * @return {NodeList}
 	 * */
-	elem.getBEMElems = function (name) {
+	Element.prototype.getBEMElems = function (name) {
 		return this.querySelectorAll('.' + this.getBEMClass() + BEM_DELIMETER_ELEMENT + name);
 	};
 
@@ -60,7 +60,7 @@
 	 * @param {String} mod
 	 * @return {Boolean}
 	 * */
-	elem.hasBEMMod = function (mod) {
+	Element.prototype.hasBEMMod = function (mod) {
 		let className = this.getBEMClass() + BEM_DELIMETER_MOD + mod;
 		return this.hasClass(className);
 	};
@@ -70,7 +70,7 @@
 	 * @param {String} mod
 	 * @return void
 	 * */
-	elem.addBEMMod = function (mod) {
+	Element.prototype.addBEMMod = function (mod) {
 		let className = this.getBEMClass() + BEM_DELIMETER_MOD + mod;
 
 		if (!this.hasClass(className)) {
@@ -83,7 +83,7 @@
 	 * @param {Array} mods
 	 * @return void
 	 * */
-	elem.addBEMMods = function (mods) {
+	Element.prototype.addBEMMods = function (mods) {
 		for (let i = 0; i < mods.length; i++) {
 			this.addBEMMod(mods[i]);
 		}
@@ -94,7 +94,7 @@
 	 * @param {String} mod
 	 * @return void
 	 * */
-	elem.removeBEMMod = function (mod) {
+	Element.prototype.removeBEMMod = function (mod) {
 		let className = this.getBEMClass() + BEM_DELIMETER_MOD + mod;
 
 		if (this.hasClass(className)) {
@@ -107,7 +107,7 @@
 	 * @param {Array} mods
 	 * @return void
 	 * */
-	elem.removeBEMMods = function (mods) {
+	Element.prototype.removeBEMMods = function (mods) {
 		for (let i = 0; i < mods.length; i++) {
 			this.removeBEMMod(mods[i]);
 		}
@@ -118,7 +118,7 @@
 	 * @param {String} mod
 	 * @return void
 	 * */
-	elem.toggleBEMMod = function (mod) {
+	Element.prototype.toggleBEMMod = function (mod) {
 		let className = this.getBEMClass() + BEM_DELIMETER_MOD + mod;
 
 		if (!this.hasClass(className)) {
@@ -136,7 +136,7 @@
 	 * @param {Boolean} [doNotAppend] - set it to false if you do not want to append an element to the block
 	 * @return {Element}
 	 * */
-	elem.addBEMElement = function (tagName, elementName, doNotAppend) {
+	Element.prototype.addBEMElement = function (tagName, elementName, doNotAppend) {
 		let bemClass = this.getBEMClass();
 		let child = document.createElement(tagName);
 
@@ -155,7 +155,7 @@
 	 * @param {String} className
 	 * @return {Boolean}
 	 * */
-	elem.isBEMElementOf = function (parent, className) {
+	Element.prototype.isBEMElementOf = function (parent, className) {
 		if (parent) {
 			return false;
 		}
@@ -179,7 +179,7 @@
 	 * @param {String} className
 	 * @param {String} nameSpace
 	 * */
-	elem.addBEMClass = function (className, nameSpace) {
+	Element.prototype.addBEMClass = function (className, nameSpace) {
 		this.classList.add(nameSpace + BEM_DELIMETER_ELEMENT + className);
 	};
 
@@ -188,7 +188,7 @@
 	 * @param {String} className
 	 * @return {Boolean}
 	 * */
-	elem.hasClass = elem.hasClass = function (className) {
+	Element.prototype.hasClass = Element.prototype.hasClass || function (className) {
 		let classes = this.className.split(' ');
 
 		for (let i = 0; i < classes.length; i++) {
